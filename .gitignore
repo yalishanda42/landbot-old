@@ -1,1 +1,8 @@
+# Token
 token
+
+# Log
+discord.log
+
+# Cache
+pycache/*
