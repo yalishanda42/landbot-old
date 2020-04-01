@@ -52,47 +52,53 @@ class LandBot(discord.Client):
         msg_parts[0] = msg_parts[0][1:]
 
         if msg_parts[0] in self.TEST_CMD:
-            # 'Test' command synthax:
-            # !{command}
-            await message.channel.send("Test? Why not.\nI am the best bot.")
+            out_msg = self._test_command()
+            await message.channel.send(out_msg)
             return
 
         if msg_parts[0] in self.RHYME_CMD:
             # 'Rhyme' command synthax:
             # !{command} {term} [{max_rhymes}]
             term = msg_parts[1]
-
-            if re.search("[а-яА-Я]", term):
-                # when cyrillic, use rimichka.com
-                api = RimichkaAPI()
-                rhymeslist = api.fetch_rhymes(term)
-                print(f"Fetched {len(rhymeslist)} rhymes for {term}")
-            else:
-                # when latin, use datamuse.com
-                api = DatamuseAPI()
-                rhymeslist = api.fetch_rhymes(term)
-                print(f"Fetched {len(rhymeslist)} rhymes for {term}")
-                if not rhymeslist:  # possible "маймуница", try Bulgarian rhyme
-                    cyrillic = transliterate.translit(term, "bg")
-                    api = RimichkaAPI()
-                    rhymeslist = api.fetch_rhymes(cyrillic)
-                    print(f"Fetched {len(rhymeslist)} rhymes for {cyrillic}")
-
-            if not rhymeslist:
-                out_msg = f"What is *{term}*? I can't rhyme it."
-                await message.channel.send(out_msg)
-                return
-
             max_rhymes = 10 if len(msg_parts) < 3 else int(msg_parts[2])
-            out_msg = f"Here you are, top {max_rhymes} rhymes for *{term}*:\n"
-            rhymeslist = rhymeslist[:max_rhymes]
-            rows = [f"> {rhyme}" for rhyme in rhymeslist]
-            out_msg += "\n".join(rows)
+
+            out_msg = self._rhyme_command(term, max_rhymes)
             await message.channel.send(out_msg)
             return
 
         if msg_parts[0] in self.HELP_CMD:
-            out_msg = """Hello! LandBot here. I serve the Landcore community.
+            out_msg = self._help_command()
+            await message.channel.send(out_msg)
+            return
+
+    def _rhyme_command(self, term, max_rhymes=10):
+        if re.search("[а-яА-Я]", term):
+            # when cyrillic, use rimichka.com
+            api = RimichkaAPI()
+            rhymeslist = api.fetch_rhymes(term)
+            print(f"Fetched {len(rhymeslist)} rhymes for {term}")
+        else:
+            # when latin, use datamuse.com
+            api = DatamuseAPI()
+            rhymeslist = api.fetch_rhymes(term)
+            print(f"Fetched {len(rhymeslist)} rhymes for {term}")
+            if not rhymeslist:  # possible "маймуница", try Bulgarian rhyme
+                cyrillic = transliterate.translit(term, "bg")
+                api = RimichkaAPI()
+                rhymeslist = api.fetch_rhymes(cyrillic)
+                print(f"Fetched {len(rhymeslist)} rhymes for {cyrillic}")
+
+        if not rhymeslist:
+            return f"What is *{term}*? I can't rhyme it."
+
+        out_msg = f"Here you are, top {max_rhymes} rhymes for *{term}*:\n"
+        rhymeslist = rhymeslist[:max_rhymes]
+        rows = [f"> {rhyme}" for rhyme in rhymeslist]
+        out_msg += "\n".join(rows)
+        return out_msg
+
+    def _help_command(self):
+        return """Hello! LandBot here. I serve the Landcore community.
 You can write commands starting with '!' and I shall execute them.
 Here are a few examples:
 `!rhyme robot`
@@ -108,8 +114,10 @@ This will write the things you are reading right now.
 My creator told me that I am gonna be learning new commands soon so stay tuned.
 May the Bafta be with you!
 """
-            await message.channel.send(out_msg)
-            return
+
+    def _test_command(self):
+        # TODO: Choose a random message everytime.
+        return "Test? Why not.\nI am the best bot."
 
 
 def _setup_logger():
