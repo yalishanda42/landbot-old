@@ -26,10 +26,10 @@ class LandBot(discord.Client):
         "rhyme",
         "rhymes",
         "рими",
-        "римички",
-        "римички",
         "рима",
-        "римувай"
+        "римички",
+        "римичка",
+        "римувай",
     )
 
     async def on_ready(self):
