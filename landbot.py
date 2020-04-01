@@ -19,7 +19,10 @@ class LandBot(discord.Client):
 
     TEST_CMD = ("test", "тест", "т", "t")
 
+    HELP_CMD = ("help", "introduce", "h", "?", "!")
+
     RHYME_CMD = (
+        "rh",
         "rhyme",
         "rhymes",
         "рими",
@@ -43,6 +46,8 @@ class LandBot(discord.Client):
 
         if len(msg_parts) < 1 or not msg[0] == "!":
             return
+
+        print(f"Received command: {msg}")
 
         msg_parts[0] = msg_parts[0][1:]
 
@@ -83,6 +88,26 @@ class LandBot(discord.Client):
             rhymeslist = rhymeslist[:max_rhymes]
             rows = [f"> {rhyme}" for rhyme in rhymeslist]
             out_msg += "\n".join(rows)
+            await message.channel.send(out_msg)
+            return
+
+        if msg_parts[0] in self.HELP_CMD:
+            out_msg = """Hello! LandBot here. I serve the Landcore community.
+You can write commands starting with '!' and I shall execute them.
+Here are a few examples:
+`!rhyme robot`
+This will fetch the top 10 rhymes for the word 'robot'.
+`!rhyme robot 22`
+This will fetch the top 22 rhymes for the word 'robot'.
+`!римувай кон`
+This will fetch the top 10 rhymes for the word 'кон'.
+`!test`
+This just outputs a test message that shows that I'm online and the best.
+`!help`
+This will write the things you are reading right now.
+My creator told me that I am gonna be learning new commands soon so stay tuned.
+May the Bafta be with you!
+"""
             await message.channel.send(out_msg)
             return
 
