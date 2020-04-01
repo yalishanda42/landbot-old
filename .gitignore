@@ -5,4 +5,4 @@ token
 discord.log
 
 # Cache
-pycache/*
+__pycache__/*

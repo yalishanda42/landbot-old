@@ -7,10 +7,27 @@
 
 import discord
 import logging
+import re
+import transliterate
+
+from rimichka import RimichkaAPI
+from datamuse import DatamuseAPI
 
 
 class LandBot(discord.Client):
     """Bot implementation."""
+
+    TEST_CMD = ("test", "тест", "т", "t")
+
+    RHYME_CMD = (
+        "rhyme",
+        "rhymes",
+        "рими",
+        "римички",
+        "римички",
+        "рима",
+        "римувай"
+    )
 
     async def on_ready(self):
         """Ouput useful debugging information."""
@@ -21,8 +38,53 @@ class LandBot(discord.Client):
         if message.author == self.user:
             return
 
-        if message.content.startswith("!test"):
+        msg = message.content.lower()
+        msg_parts = msg.split()
+
+        if len(msg_parts) < 1 or not msg[0] == "!":
+            return
+
+        msg_parts[0] = msg_parts[0][1:]
+
+        if msg_parts[0] in self.TEST_CMD:
+            # 'Test' command synthax:
+            # !{command}
             await message.channel.send("Test? Why not.\nI am the best bot.")
+            return
+
+        if msg_parts[0] in self.RHYME_CMD:
+            # 'Rhyme' command synthax:
+            # !{command} {term} [{max_rhymes}]
+            term = msg_parts[1]
+
+            if re.search("[а-яА-Я]", term):
+                # when cyrillic, use rimichka.com
+                api = RimichkaAPI()
+                rhymeslist = api.fetch_rhymes(term)
+                print(f"Fetched {len(rhymeslist)} rhymes for {term}")
+            else:
+                # when latin, use datamuse.com
+                api = DatamuseAPI()
+                rhymeslist = api.fetch_rhymes(term)
+                print(f"Fetched {len(rhymeslist)} rhymes for {term}")
+                if not rhymeslist:  # possible "маймуница", try Bulgarian rhyme
+                    cyrillic = transliterate.translit(term, "bg")
+                    api = RimichkaAPI()
+                    rhymeslist = api.fetch_rhymes(cyrillic)
+                    print(f"Fetched {len(rhymeslist)} rhymes for {cyrillic}")
+
+            if not rhymeslist:
+                out_msg = f"What is *{term}*? I can't rhyme it."
+                await message.channel.send(out_msg)
+                return
+
+            max_rhymes = 10 if len(msg_parts) < 3 else int(msg_parts[2])
+            out_msg = f"Here you are, top {max_rhymes} rhymes for *{term}*:\n"
+            rhymeslist = rhymeslist[:max_rhymes]
+            rows = [f"> {rhyme}" for rhyme in rhymeslist]
+            out_msg += "\n".join(rows)
+            await message.channel.send(out_msg)
+            return
 
 
 def _setup_logger():
