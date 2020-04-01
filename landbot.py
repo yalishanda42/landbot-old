@@ -19,7 +19,7 @@ class LandBot(discord.Client):
 
     TEST_CMD = ("test", "тест", "т", "t")
 
-    HELP_CMD = ("help", "introduce", "h", "?", "!")
+    HELP_CMD = ("help", "introduce", "h", "?")
 
     RHYME_CMD = (
         "rh",

@@ -63,7 +63,6 @@ Gives a list of rhymes for a given word (supports Bulgarian words as well).
     * `!introduce`
     * `!h`
     * `!?`
-    * `!!`
 
 
 * Notes
