@@ -122,8 +122,8 @@ class LandcoreSongs:
         ("the le6 element", "vitas", "7th element", "le6 element"),
         ("schupenoto", "s4upenoto", "na baftata", "29/8?", "29/8"),
         ("spokoino", "spokoino kolega", "statistika", "statistikata"),
-        ("chumata", "4umata"),
-        ("nasko nasko", "bat nasko", "bat nasko nasko"),
+        ("chumata", "4umata", "chuma", "4uma"),
+        ("nasko nasko", "bat nasko", "bat nasko nasko", "nasko"),
     ]
 
     CITATIONS = [
