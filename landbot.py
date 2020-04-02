@@ -10,6 +10,7 @@ import logging
 import re
 import transliterate
 import os
+import random
 from dotenv import load_dotenv
 
 from rimichka import RimichkaAPI
@@ -139,8 +140,7 @@ May the Bafta be with you!
         return out_msg
 
     def _test_command(self):
-        # TODO: Choose a random message everytime.
-        return "Test? Why not.\nI am the best bot."
+        return random.choice(LandcoreSongs.CITATIONS)
 
     def _link_command(self, name):
         full_match_index = None
