@@ -1,5 +1,6 @@
 # Token
 token
+.env
 
 # Log
 discord.log

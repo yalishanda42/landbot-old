@@ -9,6 +9,8 @@ import discord
 import logging
 import re
 import transliterate
+import os
+from dotenv import load_dotenv
 
 from rimichka import RimichkaAPI
 from datamuse import DatamuseAPI
@@ -189,10 +191,10 @@ def _setup_logger():
     logger.addHandler(handler)
 
 
-def _retrieve_token(filename="token"):
+def _retrieve_token(keyword="DISCORD_TOKEN"):
     """Get the access token that is located in the given file."""
-    with open(filename, "r") as tokenfile:
-        return tokenfile.read()[:-1]
+    load_dotenv()
+    return os.getenv(keyword)
 
 
 if __name__ == "__main__":
