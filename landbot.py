@@ -91,10 +91,9 @@ class LandBot(discord.Client):
         if not rhymeslist:
             return f"What is *{term}*? I can't rhyme it."
 
-        out_msg = f"Here you are, top {max_rhymes} rhymes for *{term}*:\n"
         rhymeslist = rhymeslist[:max_rhymes]
         rows = [f"> {rhyme}" for rhyme in rhymeslist]
-        out_msg += "\n".join(rows)
+        out_msg = "\n".join(rows)
         return out_msg
 
     def _help_command(self):
