@@ -52,6 +52,9 @@ Get a YouTube link for a song.
     * `!song`
     * `!песен`
     * `!youtube`
+    * `!l`
+    * `!s`
+    * `!yt`
 
 
 * Syntax
@@ -66,7 +69,7 @@ Get a YouTube link for a song.
 
 * Notes
 
-    This command tries to provide a YouTube video link for the given song name. If the song name does match completely it searches the database for a partial match. If multiple possible results are present it proceeds to output all of them. The song names are defined in the `LandcoreSongs` class.
+    This command tries to provide a YouTube video link for the given song name. If the song name does match completely it searches the database for a partial match. If multiple possible results are present it proceeds to output all of them.
 
 
 ### Test

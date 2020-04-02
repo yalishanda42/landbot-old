@@ -18,11 +18,13 @@ from songs import LandcoreSongs
 class LandBot(discord.Client):
     """Bot implementation."""
 
-    TEST_CMD = ("test", "тест", "т", "t")
+    # Commands
 
-    HELP_CMD = ("help", "introduce", "h", "?")
+    _TEST_CMD = ("test", "тест", "т", "t")
 
-    RHYME_CMD = (
+    _HELP_CMD = ("help", "introduce", "h", "?")
+
+    _RHYME_CMD = (
         "rh",
         "rhyme",
         "rhymes",
@@ -33,13 +35,18 @@ class LandBot(discord.Client):
         "римувай",
     )
 
-    LINK_CMD = (
+    _LINK_CMD = (
+        "l",
+        "s",
+        "yt",
         "link",
         "song",
         "линк",
         "песен",
         "youtube",
     )
+
+    # Overrides
 
     async def on_ready(self):
         """Ouput useful debugging information."""
@@ -60,30 +67,49 @@ class LandBot(discord.Client):
 
         msg_parts[0] = msg_parts[0][1:]
 
-        if msg_parts[0] in self.TEST_CMD:
+        if msg_parts[0] in self._TEST_CMD:
             out_msg = self._test_command()
-            await message.channel.send(out_msg)
-            return
 
-        if msg_parts[0] in self.RHYME_CMD:
+        elif msg_parts[0] in self._RHYME_CMD:
             # 'Rhyme' command synthax:
             # !{command} {term} [{max_rhymes}]
             term = msg_parts[1]
             max_rhymes = 10 if len(msg_parts) < 3 else int(msg_parts[2])
-
             out_msg = self._rhyme_command(term, max_rhymes)
-            await message.channel.send(out_msg)
-            return
 
-        if msg_parts[0] in self.HELP_CMD:
+        elif msg_parts[0] in self._HELP_CMD:
             out_msg = self._help_command()
-            await message.channel.send(out_msg)
-            return
 
-        if msg_parts[0] in self.LINK_CMD:
+        elif msg_parts[0] in self._LINK_CMD:
             out_msg = self._link_command(" ".join(msg_parts[1:]))
-            await message.channel.send(out_msg)
-            return
+
+        await message.channel.send(out_msg)
+        return
+
+    # Command implementations
+
+    def _help_command(self):
+        return """Hello! LandBot here. I serve the Landcore community.
+You can write commands starting with '!' and I shall execute them.
+Here are a few examples:
+`!rhyme robot`
+This will fetch the top 10 rhymes for the word 'robot'.
+`!rhyme robot 22`
+This will fetch the top 22 rhymes for the word 'robot'.
+`!римувай кон`
+This will fetch the top 10 rhymes for the word 'кон'.
+`!песен фми`
+This will give you the link for the 'ФМИ' song video in YouTube.
+`!link live`
+This will give you links to all live landcore gigs in YouTube.
+`!test`
+This just outputs a test message that shows that I'm online and the best.
+`!help`
+This will write the things you are reading right now.
+For more info always check https://github.com/allexks/landbot.
+My creator told me that I am gonna be learning new commands soon so stay tuned.
+May the Bafta be with you!
+"""
 
     def _rhyme_command(self, term, max_rhymes=10):
         if re.search("[а-яА-Я]", term):
@@ -109,24 +135,6 @@ class LandBot(discord.Client):
         rows = [f"> {rhyme}" for rhyme in rhymeslist]
         out_msg = "\n".join(rows)
         return out_msg
-
-    def _help_command(self):
-        return """Hello! LandBot here. I serve the Landcore community.
-You can write commands starting with '!' and I shall execute them.
-Here are a few examples:
-`!rhyme robot`
-This will fetch the top 10 rhymes for the word 'robot'.
-`!rhyme robot 22`
-This will fetch the top 22 rhymes for the word 'robot'.
-`!римувай кон`
-This will fetch the top 10 rhymes for the word 'кон'.
-`!test`
-This just outputs a test message that shows that I'm online and the best.
-`!help`
-This will write the things you are reading right now.
-My creator told me that I am gonna be learning new commands soon so stay tuned.
-May the Bafta be with you!
-"""
 
     def _test_command(self):
         # TODO: Choose a random message everytime.
