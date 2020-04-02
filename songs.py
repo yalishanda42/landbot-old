@@ -61,6 +61,8 @@ class LandcoreSongs:
         "https://youtu.be/U24yn3nlH64",
         "https://youtu.be/aCcDH-TvBI8",
         "https://youtu.be/TUMnDEje4kI",
+        "https://youtu.be/VMCSyRHX3cQ",
+        "https://youtu.be/oaomY92HMc4",
     ]
 
     NAMES = [
@@ -120,6 +122,8 @@ class LandcoreSongs:
         ("the le6 element", "vitas", "7th element", "le6 element"),
         ("schupenoto", "s4upenoto", "na baftata", "29/8?", "29/8"),
         ("spokoino", "spokoino kolega", "statistika", "statistikata"),
+        ("chumata", "4umata"),
+        ("nasko nasko", "bat nasko", "bat nasko nasko"),
     ]
 
     CITATIONS = [
