@@ -69,8 +69,8 @@ class LandcoreSongs:
         ("pesho baftata ringtone", "ringtone"),
         ("pesho baftata", "baftata", "pesho", "pe6o"),
         ("paulo coelho", "paulo", "koelyo", "koelyu", "paulu"),
-        ("landcore classic", "classic 1", "landkor klasik"),
-        ("com.sap.geekyMazenRap.wav", "stoyo velev", "neno pie bira"),
+        ("landcore classic", "classic 1", "landkor klasik", "classic"),
+        ("com.sap.geekyMazenRap.wav", "stoyo velev", "neno pie bira", "maikati"),
         ("kris da silent", "kris", "chris"),
         ("yanko vodata", "vodata", "yanko", "paynera", "qnko vodata", "qnko"),
         ("pohuai",),
@@ -78,7 +78,7 @@ class LandcoreSongs:
         ("imahme nie", "boeva", "imame nie"),
         ("ayde 5", "filcho", "filip", "5", "ayde pet", "aide 5"),
         ("pesho baftata remastered",),
-        ("pesho baftata pleasure live", "live s pleasure"),
+        ("pesho baftata pleasure live", "live s pleasure", "baftata live", "pesho baftata live", "live"),
         ("ehee", "exee", "ehe", "exe", "landkora", "nyamame umora"),
         ("pesho baftata rerecorded",),
         ("sandyokanka",),
@@ -87,7 +87,7 @@ class LandcoreSongs:
         ("under p360", "andar", "pesho", "under", "p360", "pe6o"),
         ("nenny b", "neni b", "nenko"),
         ("satoshi", "bitcoin", "bitcoina", "bitkoyn", "bitkoyna"),
-        ("landcore classic 2", "classic 2", "landkor klasik 2"),
+        ("landcore classic 2", "classic 2", "landkor klasik 2", "classic"),
         ("communication romanation", "kamyunikeyshan rumaneyshan", "albena"),
         ("6aka", "shestaka", "i sere paveta" "6", "shest"),
         ("devastation", "devasteyshan"),
@@ -100,10 +100,11 @@ class LandcoreSongs:
         ("094", "94", "devet chetiri", "tova e avtobusa"),
         ("411", "na uspeha chisloto", "maionezata"),
         ("325", "plank", "musakata"),
-        ("paulo coelho live", "live s baftata"),
+        ("paulo coelho live", "live s baftata", "live"),
+        ("pesho baftata live", "live s baftata", "baftata s baftata", "baftata live", "live", "live s pesho baftata"),
         ("210", "zalata golyama", "210 brat", "zalata golqma", "bam bam"),
         ("stupid horse", "konferansa", "kon"),
-        ("landcore classic 3", "classic 3", "landkor klasik 3"),
+        ("landcore classic 3", "classic 3", "landkor klasik 3", "classic"),
         ("garageband", "garage band", "landcore mashinata", "landkor mashinata"),
         ("attaxic",),
         ("slack mozhe bi", "swag moje bi", "chernite ninji", "nindzhi", "slak"),
@@ -120,7 +121,3 @@ class LandcoreSongs:
         ("schupenoto", "s4upenoto", "na baftata", "29/8?", "29/8"),
         ("spokoino", "spokoino kolega", "na baftata", "29/8?", "29/8", "statistika", "statistikata"),
     ]
-
-    TAGS = {
-        # TODO
-    }

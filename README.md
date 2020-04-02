@@ -19,7 +19,7 @@ Gives a list of rhymes for a given word (supports Bulgarian words as well).
     * `!римувай`
 
 
-* Synthax
+* Syntax
 
     `!{command} {term} [{max_rhymes}]`
 
@@ -40,6 +40,34 @@ Gives a list of rhymes for a given word (supports Bulgarian words as well).
     If it does not, it creates a request to datamuse.com and if the result is empty attempts to transliterate the `term` from latin to cyrillic and proceeds to make a request to rimichka.com.
 
     The results are ordered by precision descendingly and limited to a maximum of `max_rhymes`.
+
+### Link
+
+Get a YouTube link for a song.
+
+* Command variations
+
+    * `!link`
+    * `!линк`
+    * `!song`
+    * `!песен`
+    * `!youtube`
+
+
+* Syntax
+
+    `!{command} {song_name}`
+
+* Parameters
+
+    * `song_name`
+
+    The name of the song.
+
+* Notes
+
+    This command tries to provide a YouTube video link for the given song name. If the song name does match completely it searches the database for a partial match. If multiple possible results are present it proceeds to output all of them. The song names are defined in the `LandcoreSongs` class.
+
 
 ### Test
 

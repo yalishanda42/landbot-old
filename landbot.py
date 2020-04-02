@@ -12,6 +12,7 @@ import transliterate
 
 from rimichka import RimichkaAPI
 from datamuse import DatamuseAPI
+from songs import LandcoreSongs
 
 
 class LandBot(discord.Client):
@@ -30,6 +31,14 @@ class LandBot(discord.Client):
         "римички",
         "римичка",
         "римувай",
+    )
+
+    LINK_CMD = (
+        "link",
+        "song",
+        "линк",
+        "песен",
+        "youtube",
     )
 
     async def on_ready(self):
@@ -68,6 +77,11 @@ class LandBot(discord.Client):
 
         if msg_parts[0] in self.HELP_CMD:
             out_msg = self._help_command()
+            await message.channel.send(out_msg)
+            return
+
+        if msg_parts[0] in self.LINK_CMD:
+            out_msg = self._link_command(" ".join(msg_parts[1:]))
             await message.channel.send(out_msg)
             return
 
@@ -118,8 +132,38 @@ May the Bafta be with you!
         # TODO: Choose a random message everytime.
         return "Test? Why not.\nI am the best bot."
 
-    def _song_command(self, keywords):
-        pass
+    def _link_command(self, name):
+        full_match_index = None
+        partial_match_indices = []
+
+        if re.match("[а-яА-Я]", name):
+            name = transliterate.translit(name, "bg", reversed=True)
+
+        name = name.lower()
+
+        for i, names_tuple in enumerate(LandcoreSongs.NAMES):
+            if names_tuple[0] == name:
+                full_match_index = i
+                break
+
+            if name in names_tuple[1:]:
+                partial_match_indices.append(i)
+
+        if full_match_index is not None:
+            return LandcoreSongs.URLS[full_match_index]
+
+        if not partial_match_indices:
+            return "Hm? I could not infer a landcore song out of this, sorry."
+
+        if len(partial_match_indices) == 1:
+            return LandcoreSongs.URLS[partial_match_indices[0]]
+
+        result = "Може би имахте предвид:\n"
+        result += "\n".join("[{0}]({1})"
+                            .format(LandcoreSongs.NAMES[i][0],
+                                    LandcoreSongs.URLS[i])
+                            for i in partial_match_indices)
+        return result
 
 
 def _setup_logger():
