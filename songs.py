@@ -119,7 +119,7 @@ class LandcoreSongs:
         ("stack overflow", "push", "pop", "po tsyal den samo", "po cql den samo"),
         ("the le6 element", "vitas", "7th element", "le6 element"),
         ("schupenoto", "s4upenoto", "na baftata", "29/8?", "29/8"),
-        ("spokoino", "spokoino kolega", "na baftata", "29/8?", "29/8", "statistika", "statistikata"),
+        ("spokoino", "spokoino kolega", "statistika", "statistikata"),
     ]
 
     CITATIONS = [
