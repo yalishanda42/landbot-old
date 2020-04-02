@@ -118,6 +118,9 @@ May the Bafta be with you!
         # TODO: Choose a random message everytime.
         return "Test? Why not.\nI am the best bot."
 
+    def _song_command(self, keywords):
+        pass
+
 
 def _setup_logger():
     """Set up the logger."""
