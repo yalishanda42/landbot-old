@@ -5,7 +5,6 @@ class LandcoreSongs:
     """Provides info for all landcore songs."""
 
     URLS = [
-        "https://youtu.be/3sk0a1jYEAg",
         "https://youtu.be/AWp0I7bYAyM",
         "https://youtu.be/S82NBonU164",
         "https://youtu.be/p9XTc6MrhNM",
@@ -66,7 +65,6 @@ class LandcoreSongs:
     ]
 
     NAMES = [
-        ("mina telepatkata", "telepatka"),
         ("nay-golemiya", "pecata"),
         ("pesho baftata ringtone", "ringtone"),
         ("pesho baftata", "baftata", "pesho", "pe6o"),
