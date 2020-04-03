@@ -132,7 +132,7 @@ May the Bafta be with you!
                 print(f"Fetched {len(rhymeslist)} rhymes for {cyrillic}")
 
         if not rhymeslist:
-            return f"What is *{term}*? I can't rhyme it."
+            return "Е туй вече не мога да го изримувам." 
 
         rhymeslist = rhymeslist[:max_rhymes]
         rows = [f"> {rhyme}" for rhyme in rhymeslist]
@@ -163,7 +163,7 @@ May the Bafta be with you!
             return LandcoreSongs.URLS[full_match_index]
 
         if not partial_match_indices:
-            return "Hm? I could not infer a landcore song out of this, sorry."
+            return "хм? пробвай пак"
 
         if len(partial_match_indices) == 1:
             return LandcoreSongs.URLS[partial_match_indices[0]]
