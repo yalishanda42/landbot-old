@@ -66,8 +66,8 @@ class LandcoreSongs:
 
     NAMES = [
         ("nay-golemiya", "pecata"),
-        ("pesho baftata ringtone", "ringtone"),
-        ("pesho baftata", "baftata", "pesho", "pe6o"),
+        ("pesho baftata ringtone", "ringtone", "baftata ringtone", "ringtone baftata"),
+        ("pesho baftata", "baftata", "pesho", "pe6o", "bafta"),
         ("paulo coelho", "paulo", "koelyo", "koelyu", "paulu"),
         ("landcore classic", "classic 1", "landkor klasik", "classic"),
         ("com.sap.geekyMazenRap.wav", "stoyo velev", "neno pie bira", "maikati"),
@@ -134,6 +134,8 @@ class LandcoreSongs:
         "6\n6\n6ака",
         "шест крака",
         "Issere Pavetta.",
+        "полива си цветята с минерална вода",
+        "желирани мечета",
         "maikati maikati maikati maikati maaa",
         "гамата гамата гамата гамата маз-на",
         "мазната мазната мазната мазната га-ма",
