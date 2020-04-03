@@ -92,26 +92,28 @@ class LandBot(discord.Client):
     # Command implementations
 
     def _help_command(self):
-        return """Hello! LandBot here. I serve the Landcore community.
-You can write commands starting with '!' and I shall execute them.
-Here are a few examples:
-`!rhyme robot`
-This will fetch the top 10 rhymes for the word 'robot'.
-`!rhyme robot 22`
-This will fetch the top 22 rhymes for the word 'robot'.
-`!римувай кон`
-This will fetch the top 10 rhymes for the word 'кон'.
-`!песен фми`
-This will give you the link for the 'ФМИ' song video in YouTube.
-`!link live`
-This will give you links to all live landcore gigs in YouTube.
-`!test`
-This just outputs a test message that shows that I'm online and the best.
-`!help`
-This will write the things you are reading right now.
-For more info always check https://github.com/allexks/landbot.
-My creator told me that I am gonna be learning new commands soon so stay tuned.
-May the Bafta be with you!
+        return """И ето пак команда с '!' се задава.
+LandBot-a я вижда и веднага отговаря.
+
+Ето някои примери:
+* `!rhyme robot`
+Ще дам няколко рими на 'robot'.
+* `!rhyme robot 22`
+Ще дам най-много 22 рими на 'robot'.
+* `!римувай кон`
+Ще дам няколко рими на 'кон'.
+* `!песен фми`
+Ще пратя в чата песента 'ФМИ' (демек линк към YouTube видеото).
+* `!link live`
+Ще пратя всички лайв ландкор изгъзици.
+* `!test`
+Ще те разсмея. Може би. Нз. Ама при всеки случай ще разбереш дали съм онлайн.
+* `!help`
+Ще напиша това, което четеш сега.
+
+Повече инфо винаги има тук: https://github.com/allexks/landbot.
+Очаква се да мога да правя и още неща в бъдеще.
+Приятно ландкориране.
 """
 
     def _rhyme_command(self, term, max_rhymes=10):
@@ -132,7 +134,7 @@ May the Bafta be with you!
                 print(f"Fetched {len(rhymeslist)} rhymes for {cyrillic}")
 
         if not rhymeslist:
-            return "Е туй вече не мога да го изримувам." 
+            return "Е туй вече не мога да го изримувам."
 
         rhymeslist = rhymeslist[:max_rhymes]
         rows = [f"> {rhyme}" for rhyme in rhymeslist]
