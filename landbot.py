@@ -25,7 +25,7 @@ class LandBot(discord.Client):
 
     COMMAND_START_SYMBOL = "."
 
-    _TEST_CMD = ("test", "тест", "т", "t")
+    _TEST_CMD = ("test", "тест", "т", "t", ".")
 
     _HELP_CMD = ("help", "introduce", "h", "?")
 
@@ -53,14 +53,14 @@ class LandBot(discord.Client):
 
     _WELCOME_MESSAGES = (
         "И ето пак във ~~вратата~~ чата влезе {0}",
-        "Раз, два, три, четири...пет\nВ чата влезе {0}, пожелавам им късмет",
+        "Раз, два, три, четири... айде пет\nВ чата влезе {0}, пожелавам им късмет",
         "{0} стиска ви здраво ръката",
-        ""
     )
 
-    _WELCOME_USER_DM = """Само да знаеш, че мога изпълявам команди, започващи \
+    _WELCOME_USER_DM = """Добре дошъл в сървъра! Аз съм ландкор бота.
+Само да знаеш, че мога изпълявам команди, започващи \
 с точка.
-Може да пробваш .help, за повече информация (на лично, че да не спамя \
+Може да пробваш .help за повече информация (това на лично, че да не спамя \
 на другите)."""
 
     # Overrides
@@ -69,19 +69,21 @@ class LandBot(discord.Client):
         """Ouput useful debugging information."""
         print(f"Bot logged in as {self.user}.")
 
-    async def on_group_join(self, channel, user):
+    async def on_member_join(self, member):
         """Handle a user joining the server."""
-        print(f"User {user} joined the server!")
+        print(f"User {member} joined the server!")
 
-        if user.bot:
+        if member.bot:
             return
 
         out_format = random.choice(self._WELCOME_MESSAGES)
-        out_msg = out_format.format(f"**{user.name}**")
-        await channel.send(out_msg)
+        out_msg = out_format.format(f"**{member.name}**")
+        for channel in member.guild.channels:
+            if channel.name == 'general':
+                await channel.send(out_msg)
 
         usr_msg = self._WELCOME_USER_DM
-        await user.send(usr_msg)
+        await member.send(usr_msg)
 
     async def on_message(self, message):
         """Listen for patterns and execute commands."""

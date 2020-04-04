@@ -80,6 +80,7 @@ Get a YouTube link for a landcore song.
     * `.тест`
     * `.t`
     * `.т`
+    * `..`
 
 
 * Notes
