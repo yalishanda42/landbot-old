@@ -9,19 +9,19 @@ Gives a list of rhymes for a given word (supports Bulgarian words as well).
 
 * Command variations
 
-    * `!rhyme`
-    * `!rhymes`
-    * `!rh`
-    * `!рими`
-    * `!рима`
-    * `!римички`
-    * `!римичка`
-    * `!римувай`
+    * `.rhyme`
+    * `.rhymes`
+    * `.rh`
+    * `.рими`
+    * `.рима`
+    * `.римички`
+    * `.римичка`
+    * `.римувай`
 
 
 * Syntax
 
-    `!{command} {term} [{max_rhymes}]`
+    `.{command} {term} [{max_rhymes}]`
 
 * Parameters
 
@@ -47,19 +47,19 @@ Get a YouTube link for a landcore song.
 
 * Command variations
 
-    * `!link`
-    * `!линк`
-    * `!song`
-    * `!песен`
-    * `!youtube`
-    * `!l`
-    * `!s`
-    * `!yt`
+    * `.link`
+    * `.линк`
+    * `.song`
+    * `.песен`
+    * `.youtube`
+    * `.l`
+    * `.s`
+    * `.yt`
 
 
 * Syntax
 
-    `!{command} {song_name}`
+    `.{command} {song_name}`
 
 * Parameters
 
@@ -76,10 +76,10 @@ Get a YouTube link for a landcore song.
 
 * Command variations
 
-    * `!test`
-    * `!тест`
-    * `!t`
-    * `!т`
+    * `.test`
+    * `.тест`
+    * `.t`
+    * `.т`
 
 
 * Notes
@@ -90,10 +90,10 @@ Get a YouTube link for a landcore song.
 
 * Command variations
 
-    * `!help`
-    * `!introduce`
-    * `!h`
-    * `!?`
+    * `.help`
+    * `.introduce`
+    * `.h`
+    * `.?`
 
 
 * Notes

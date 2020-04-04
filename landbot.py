@@ -21,7 +21,9 @@ from songs import LandcoreSongs
 class LandBot(discord.Client):
     """Bot implementation."""
 
-    # Commands
+    # Constants
+
+    COMMAND_START_SYMBOL = "."
 
     _TEST_CMD = ("test", "тест", "т", "t")
 
@@ -49,21 +51,47 @@ class LandBot(discord.Client):
         "youtube",
     )
 
+    _WELCOME_MESSAGES = (
+        "И ето пак във ~~вратата~~ чата влезе {0}",
+        "Раз, два, три, четири...пет\nВ чата влезе {0}, пожелавам им късмет",
+        "{0} стиска ви здраво ръката",
+        ""
+    )
+
+    _WELCOME_USER_DM = """Само да знаеш, че мога изпълявам команди, започващи \
+с точка.
+Може да пробваш .help, за повече информация (на лично, че да не спамя \
+на другите)."""
+
     # Overrides
 
     async def on_ready(self):
         """Ouput useful debugging information."""
         print(f"Bot logged in as {self.user}.")
 
+    async def on_group_join(self, channel, user):
+        """Handle a user joining the server."""
+        print(f"User {user} joined the server!")
+
+        if user.bot:
+            return
+
+        out_format = random.choice(self._WELCOME_MESSAGES)
+        out_msg = out_format.format(f"**{user.name}**")
+        await channel.send(out_msg)
+
+        usr_msg = self._WELCOME_USER_DM
+        await user.send(usr_msg)
+
     async def on_message(self, message):
-        """Listen for messages starting with '!' and execute their commands."""
+        """Listen for patterns and execute commands."""
         if message.author == self.user:
             return
 
         msg = message.content.lower()
         msg_parts = msg.split()
 
-        if len(msg_parts) < 1 or not msg[0] == "!":
+        if len(msg_parts) < 1 or not msg[0] == self.COMMAND_START_SYMBOL:
             return
 
         print(f"Received command: {msg}")
@@ -75,7 +103,7 @@ class LandBot(discord.Client):
 
         elif msg_parts[0] in self._RHYME_CMD:
             # 'Rhyme' command synthax:
-            # !{command} {term} [{max_rhymes}]
+            # .{command} {term} [{max_rhymes}]
             term = msg_parts[1]
             max_rhymes = 10 if len(msg_parts) < 3 else int(msg_parts[2])
             out_msg = self._rhyme_command(term, max_rhymes)
@@ -92,23 +120,23 @@ class LandBot(discord.Client):
     # Command implementations
 
     def _help_command(self):
-        return """И ето пак команда с '!' се задава.
+        return """И ето пак команда с '.' се задава.
 LandBot-a я вижда и веднага отговаря.
 
 Ето някои примери:
-* `!rhyme robot`
+* `.rhyme robot`
 Ще дам няколко рими на 'robot'.
-* `!rhyme robot 22`
+* `.rhyme robot 22`
 Ще дам най-много 22 рими на 'robot'.
-* `!римувай кон`
+* `.римувай кон`
 Ще дам няколко рими на 'кон'.
-* `!песен фми`
+* `.песен фми`
 Ще пратя в чата песента 'ФМИ' (демек линк към YouTube видеото).
-* `!link live`
+* `.link live`
 Ще пратя всички лайв ландкор изгъзици.
-* `!test`
+* `.test`
 Ще те разсмея. Може би. Нз. Ама при всеки случай ще разбереш дали съм онлайн.
-* `!help`
+* `.help`
 Ще напиша това, което четеш сега.
 
 Повече инфо винаги има тук: https://github.com/allexks/landbot.
