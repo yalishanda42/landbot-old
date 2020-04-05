@@ -70,7 +70,7 @@ class LandcoreSongs:
         ("pesho baftata", "baftata", "pesho", "pe6o", "bafta"),
         ("paulo coelho", "paulo", "koelyo", "koelyu", "paulu"),
         ("landcore classic", "classic 1", "landkor klasik", "classic"),
-        ("com.sap.geekyMazenRap.wav", "stoyo velev", "neno pie bira", "maikati"),
+        ("com.sap.geekyMazenRap.wav", "stoyo velev", "neno pie bira", "maikati", "maykati"),
         ("kris da silent", "kris", "chris"),
         ("yanko vodata", "vodata", "yanko", "paynera", "qnko vodata", "qnko"),
         ("pohuai",),
