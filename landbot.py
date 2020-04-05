@@ -93,6 +93,9 @@ class LandBot(discord.Client):
         msg = message.content.lower()
         msg_parts = msg.split()
 
+        if "bafta" in msg or "бафта" in msg:
+            await message.channel.send("*hahaa*")
+
         if len(msg_parts) < 1 or not msg[0] == self.COMMAND_START_SYMBOL:
             return
 
