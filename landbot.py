@@ -119,7 +119,7 @@ class LandBot(discord.Client):
         elif msg_parts[0] in self._HELP_CMD:
             out_msg = self._help_command()
 
-        elif msg_parts[0] in self._LINK_CMD and len(msg_parts) == 2:
+        elif msg_parts[0] in self._LINK_CMD and len(msg_parts) >= 2:
             out_msg = self._link_command(" ".join(msg_parts[1:]))
 
         elif msg_parts[0] in self._LINK_CMD and len(msg_parts) == 1:
