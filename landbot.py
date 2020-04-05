@@ -25,19 +25,19 @@ class LandBot(discord.Client):
 
     COMMAND_START_SYMBOL = "."
 
-    _TEST_CMD = ("test", "тест", "т", "t", ".")
+    _TEST_CMD = ("test", "t", ".")
 
-    _HELP_CMD = ("help", "introduce", "h", "?")
+    _HELP_CMD = ("help", "introduce", "h", "?", "pomosht")
 
     _RHYME_CMD = (
         "rh",
         "rhyme",
         "rhymes",
-        "рими",
-        "рима",
-        "римички",
-        "римичка",
-        "римувай",
+        "rimi",
+        "rima",
+        "rimichki",
+        "rimichka",
+        "rimuvay",
     )
 
     _LINK_CMD = (
@@ -46,10 +46,9 @@ class LandBot(discord.Client):
         "yt",
         "link",
         "song",
-        "линк",
-        "песен",
+        "pesen",
         "youtube",
-        "поздрав",
+        "pozdrav",
         "greetings",
         "greet",
     )
@@ -95,6 +94,9 @@ class LandBot(discord.Client):
 
         msg = message.content.lower()
         msg_parts = msg.split()
+        msg_parts[0] = transliterate.translit(msg_parts[0],
+                                              "bg",
+                                              reversed=True)
 
         if "bafta" in msg or "бафта" in msg:
             await message.channel.send("*hahaa*")
