@@ -62,6 +62,7 @@ class LandcoreSongs:
         "https://youtu.be/TUMnDEje4kI",
         "https://youtu.be/VMCSyRHX3cQ",
         "https://youtu.be/oaomY92HMc4",
+        "https://youtu.be/JgVDjKHFJko",
     ]
 
     NAMES = [
@@ -122,6 +123,7 @@ class LandcoreSongs:
         ("spokoino", "spokoino kolega", "statistika", "statistikata"),
         ("chumata", "4umata", "chuma", "4uma"),
         ("nasko nasko", "bat nasko", "bat nasko nasko", "nasko"),
+        ("shema // praim", "shema praim", "shema prajm", "shema", "shemata", "keshovartezh"),
     ]
 
     CITATIONS = [
