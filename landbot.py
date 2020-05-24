@@ -245,9 +245,10 @@ def _retrieve_token(keyword="DISCORD_TOKEN"):
     return os.getenv(keyword)
 
 
-_setup_logger()
+if __name__ == "__main__":
+    _setup_logger()
 
-client = LandBot()
+    client = LandBot()
 
-token = _retrieve_token()
-client.run(token)
+    token = _retrieve_token()
+    client.run(token)
