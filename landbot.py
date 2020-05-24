@@ -240,7 +240,7 @@ def _setup_logger():
 
 
 def _retrieve_token(keyword="DISCORD_TOKEN"):
-    """Get the access token that is located in the given file."""
+    """Get the access token from an environment variable."""
     load_dotenv()
     return os.getenv(keyword)
 
