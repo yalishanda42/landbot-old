@@ -64,6 +64,7 @@ class LandcoreSongs:
         "https://youtu.be/oaomY92HMc4",
         "https://youtu.be/JgVDjKHFJko",
         "https://youtu.be/9PNI4IOmYE8",
+        "https://youtu.be/h-c5FzvkQXE",
     ]
 
     NAMES = [
@@ -126,6 +127,7 @@ class LandcoreSongs:
         ("nasko nasko", "bat nasko", "bat nasko nasko", "nasko"),
         ("shema // praim", "shema praim", "shema prajm", "shema", "shemata", "keshovartezh"),
         ("100qn", "stoyan", "stoqn", "child in time"),
+        ("landcore classic 4", "classic 4", "landkor klasik 4", "classic", "klasik 4", "klasik"),
     ]
 
     CITATIONS = [
