@@ -92,7 +92,7 @@ class LandcoreSongs:
         ("satoshi", "bitcoin", "bitcoina", "bitkoyn", "bitkoyna"),
         ("landcore classic 2", "classic 2", "landkor klasik 2", "classic", "klasik 2", "klasik"),
         ("communication romanation", "kamyunikeyshan rumaneyshan", "albena"),
-        ("6aka", "shestaka", "i sere paveta" "6", "shest"),
+        ("6aka", "shestaka", "i sere paveta" "6", "shest", "6ака"),
         ("devastation", "devasteyshan"),
         ("fmi", "algebra"),
         ("hex", "heks", "keks"),
