@@ -6,4 +6,8 @@ token
 discord.log
 
 # Cache
-__pycache__/*
+__pycache__
+.*_cache
+
+# Virtual envs
+venv

@@ -70,6 +70,12 @@ class LandBot(discord.Client):
     async def on_ready(self):
         """Ouput useful debugging information."""
         print(f"Bot logged in as {self.user}.")
+        channel_id = 714209807107751956 # TEST
+        channel = [c for c in self.guilds[0].channels if c.id == channel_id][0]
+        print(f"Connecting to channel {channel}...")
+        player = await channel.connect()
+        # TEST
+        player.play(discord.FFmpegPCMAudio("http://stream.radioparadise.com/rock-128"))
 
     async def on_member_join(self, member):
         """Handle a user joining the server."""
