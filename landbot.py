@@ -12,10 +12,22 @@ import transliterate
 import os
 import random
 from dotenv import load_dotenv
+import youtube_dl
+from random import shuffle
 
 from rimichka import RimichkaAPI
 from datamuse import DatamuseAPI
 from songs import LandcoreSongs
+
+class _YTDLogger:
+    def debug(self, msg):
+        pass
+
+    def warning(self, msg):
+        print(msg)
+
+    def error(self, msg):
+        print(msg)
 
 
 class LandBot(discord.Client):
@@ -233,10 +245,62 @@ LandBot-a я вижда и веднага отговаря.
     async def _play_landcore_radio(self):
         if not self.voice_channel_id: return
         channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
+
+        def hook(d):
+            if d["status"] == "finished":
+                filename = d["filename"]
+                print(f"Dowloaded {filename}.")
+
+        FOLDER = "mp3"
+
+        ydl_opts = {
+            'format': 'bestaudio/mp3',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+            'logger': _YTDLogger(),
+            'progress_hooks': [hook],
+            'outtmpl': FOLDER + '/%(autonumber)s.mp3',
+        }
+
+        songlist = []
+        to_download = []
+
+        for i, link in enumerate(LandcoreSongs.URLS):
+            filepath = f"{FOLDER}/{(i+1):05d}.mp3"
+            songlist.append(filepath)
+            if not os.path.isfile(filepath):
+                print(f"Missing {filepath}")
+                to_download.append(link)
+            else:
+                print(f"Found {filepath}")
+
+        if to_download:
+            with youtube_dl.YoutubeDL(ydl_opts) as downloader:
+                downloader.download(to_download)
+
         print(f"Connecting to channel {channel}...")
         player = await channel.connect()
-        # TEST
-        player.play(discord.FFmpegPCMAudio("http://stream.radioparadise.com/rock-128"))
+        self.songlist = songlist
+        self.player = player
+        if songlist:
+            self._play_song_increment_count(0)
+        else:
+            print("No songs to play!")
+
+    def _play_song_increment_count(self, i):
+        if not self.player or not self.songlist: return
+
+        if i >= len(self.songlist):
+            shuffle(self.songlist)
+            i = 0
+
+        self.player.play(
+            discord.FFmpegPCMAudio(self.songlist[i]),
+            after=lambda e: self._play_song_increment_count(i+1)
+        )
 
 
 def _setup_logger():
