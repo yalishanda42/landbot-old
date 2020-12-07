@@ -21,6 +21,10 @@ from songs import LandcoreSongs
 class LandBot(discord.Client):
     """Bot implementation."""
 
+    # Properties
+
+    voice_channel_id = None
+
     # Constants
 
     COMMAND_START_SYMBOL = "."
@@ -70,12 +74,7 @@ class LandBot(discord.Client):
     async def on_ready(self):
         """Ouput useful debugging information."""
         print(f"Bot logged in as {self.user}.")
-        channel_id = 714209807107751956 # TEST
-        channel = [c for c in self.guilds[0].channels if c.id == channel_id][0]
-        print(f"Connecting to channel {channel}...")
-        player = await channel.connect()
-        # TEST
-        player.play(discord.FFmpegPCMAudio("http://stream.radioparadise.com/rock-128"))
+        await self._play_landcore_radio()
 
     async def on_member_join(self, member):
         """Handle a user joining the server."""
@@ -229,6 +228,16 @@ LandBot-a я вижда и веднага отговаря.
     def _random_song_cmd(self):
         return random.choice(LandcoreSongs.URLS)
 
+    # Helper methods
+
+    async def _play_landcore_radio(self):
+        if not self.voice_channel_id: return
+        channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
+        print(f"Connecting to channel {channel}...")
+        player = await channel.connect()
+        # TEST
+        player.play(discord.FFmpegPCMAudio("http://stream.radioparadise.com/rock-128"))
+
 
 def _setup_logger():
     """Set up the logger."""
@@ -245,16 +254,13 @@ def _setup_logger():
     logger.addHandler(handler)
 
 
-def _retrieve_token(keyword="DISCORD_TOKEN"):
-    """Get the access token from an environment variable."""
-    load_dotenv()
-    return os.getenv(keyword)
-
-
 if __name__ == "__main__":
     _setup_logger()
 
-    client = LandBot()
+    load_dotenv()
+    token = os.getenv("DISCORD_TOKEN")
+    voice_channel_id = os.getenv("VOICE_CHANNEL_ID")
 
-    token = _retrieve_token()
+    client = LandBot()
+    client.voice_channel_id = int(voice_channel_id) if voice_channel_id else None
     client.run(token)
