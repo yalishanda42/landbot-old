@@ -278,8 +278,18 @@ LandBot-a я вижда и веднага отговаря.
                 print(f"Found {filepath}")
 
         if to_download:
+            activity = discord.Activity()
+            activity.type = discord.ActivityType.listening
+            activity.name = "landcore"
+            activity.details = "Downloading songs illegally..."
+            await self.change_presence(activity=activity)
             with youtube_dl.YoutubeDL(ydl_opts) as downloader:
                 downloader.download(to_download)
+
+        activity = discord.Activity()
+        activity.type = discord.ActivityType.listening
+        activity.name = "landcore"
+        await self.change_presence(activity=activity)
 
         print(f"Connecting to channel {channel}...")
         player = await channel.connect()
