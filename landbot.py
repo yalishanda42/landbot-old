@@ -294,8 +294,10 @@ LandBot-a я вижда и веднага отговаря.
         if not self.player or not self.songlist: return
 
         if i >= len(self.songlist):
-            shuffle(self.songlist)
             i = 0
+
+        if i == 0:
+            shuffle(self.songlist)
 
         self.player.play(
             discord.FFmpegPCMAudio(self.songlist[i]),
