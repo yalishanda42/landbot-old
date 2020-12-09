@@ -114,6 +114,8 @@ class LandBot(discord.Client):
 
         msg_parts[0] = msg_parts[0][1:]
 
+        out_msg = ""
+
         if msg_parts[0] in self._TEST_CMD:
             out_msg = self._test_command()
 
@@ -132,6 +134,9 @@ class LandBot(discord.Client):
 
         elif msg_parts[0] in self._LINK_CMD and len(msg_parts) == 1:
             out_msg = self._random_song_cmd()
+
+        if not out_msg:
+            return
 
         await message.channel.send(out_msg)
         return
