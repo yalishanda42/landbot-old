@@ -12,23 +12,12 @@ import transliterate
 import os
 import random
 from dotenv import load_dotenv
-import youtube_dl
+from pytube import YouTube
 from random import shuffle
 
 from rimichka import RimichkaAPI
 from datamuse import DatamuseAPI
 from songs import LandcoreSongs
-
-class _YTDLogger:
-    def debug(self, msg):
-        pass
-
-    def warning(self, msg):
-        print(msg)
-
-    def error(self, msg):
-        print(msg)
-
 
 class LandBot(discord.Client):
     """Bot implementation."""
@@ -246,45 +235,10 @@ LandBot-a я вижда и веднага отговаря.
         if not self.voice_channel_id: return
         channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
 
-        def hook(d):
-            if d["status"] == "finished":
-                filename = d["filename"]
-                print(f"Dowloaded {filename}.")
-
-        FOLDER = "mp3"
-
-        ydl_opts = {
-            'format': 'bestaudio/mp3',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'logger': _YTDLogger(),
-            'progress_hooks': [hook],
-            'outtmpl': FOLDER + '/%(autonumber)s.mp3',
-        }
-
-        songlist = []
-        to_download = []
-
-        for i, link in enumerate(LandcoreSongs.URLS):
-            filepath = f"{FOLDER}/{(i+1):05d}.mp3"
-            songlist.append(filepath)
-            if not os.path.isfile(filepath):
-                print(f"Missing {filepath}")
-                to_download.append(link)
-            else:
-                print(f"Found {filepath}")
-
-        if to_download:
-            activity = discord.Activity()
-            activity.type = discord.ActivityType.listening
-            activity.name = "landcore"
-            activity.details = "Downloading songs illegally..."
-            await self.change_presence(activity=activity)
-            with youtube_dl.YoutubeDL(ydl_opts) as downloader:
-                downloader.download(to_download)
+        songlist = [
+            YouTube(link).streams.first().url
+            for link in LandcoreSongs.URLS
+        ]
 
         activity = discord.Activity()
         activity.type = discord.ActivityType.listening
