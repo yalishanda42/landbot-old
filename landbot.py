@@ -240,9 +240,11 @@ LandBot-a я вижда и веднага отговаря.
         if not self.voice_channel_id: return
         channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
 
+        print("Downloading song data...")
+
         songlist = [
-            YouTube(link).streams.first().url
-            for link in LandcoreSongs.URLS
+            YouTube(link)
+            for link in LandcoreSongs.URLS[:3]
         ]
 
         activity = discord.Activity()
@@ -268,8 +270,13 @@ LandBot-a я вижда и веднага отговаря.
         if i == 0:
             shuffle(self.songlist)
 
+        songdata = self.songlist[i]
+        audio_url = songdata.streams.filter(only_audio=True).order_by("abr").first().url
+
+        print(f"Playing {songdata.title}...")
+
         self.player.play(
-            discord.FFmpegPCMAudio(self.songlist[i]),
+            discord.FFmpegPCMAudio(audio_url),
             after=lambda e: self._play_song_increment_count(i+1)
         )
 
