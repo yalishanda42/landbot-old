@@ -244,7 +244,7 @@ LandBot-a я вижда и веднага отговаря.
 
         songlist = [
             YouTube(link)
-            for link in LandcoreSongs.URLS[:3]
+            for link in LandcoreSongs.URLS
         ]
 
         activity = discord.Activity()
