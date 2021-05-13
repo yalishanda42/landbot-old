@@ -278,14 +278,18 @@ LandBot-a я вижда и веднага отговаря.
             shuffle(self.songlist)
 
         songdata = self.songlist[i]
-        audio_url = songdata.streams.filter(only_audio=True).order_by("abr").first().url
+        try:
+            audio_url = songdata.streams.filter(only_audio=True).order_by("abr").first().url
+            print(f"Playing {songdata.title}...")
 
-        print(f"Playing {songdata.title}...")
+            self.player.play(
+                discord.FFmpegPCMAudio(audio_url),
+                after=lambda e: self._play_song_increment_count(i+1)
+            )
+        except HTTPError:
+            print(f"HTTPError received, skipping song {songdata.watch_url}")
+            self._play_song_increment_count(i+1)
 
-        self.player.play(
-            discord.FFmpegPCMAudio(audio_url),
-            after=lambda e: self._play_song_increment_count(i+1)
-        )
 
 
 def _setup_logger():
