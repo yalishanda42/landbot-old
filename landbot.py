@@ -8,6 +8,7 @@
 import discord
 import logging
 import re
+from urllib.error import HTTPError
 import transliterate
 import os
 import random
@@ -242,10 +243,16 @@ LandBot-a я вижда и веднага отговаря.
 
         print("Downloading song data...")
 
-        songlist = [
-            YouTube(link)
-            for link in LandcoreSongs.URLS
-        ]
+        songlist = []
+        try:
+            songlist = [
+                YouTube(link)
+                for link in LandcoreSongs.URLS
+            ]
+        except HTTPError:
+            print("Caught HTTPException, retrying...")
+            await self._play_landcore_radio()
+            return # fml
 
         activity = discord.Activity()
         activity.type = discord.ActivityType.listening
