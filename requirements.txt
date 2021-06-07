@@ -16,7 +16,7 @@ pypresence==4.0.0
 python-dotenv==0.13.0
 pytube>=10.8.1
 requests==2.23.0
-six==1.15.0
+six==1.16.0
 style==1.1.0
 toml==0.10.2
 transliterate==1.10.2
