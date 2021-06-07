@@ -12,7 +12,7 @@ multidict==4.7.6
 pycodestyle==2.6.0
 pycparser==2.20
 PyNaCl==1.4.0
-pypresence==4.0.0
+pypresence==4.2.0
 python-dotenv==0.13.0
 pytube>=10.8.1
 requests==2.23.0
