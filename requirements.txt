@@ -20,7 +20,7 @@ six==1.15.0
 style==1.1.0
 toml==0.10.2
 transliterate==1.10.2
-typing-extensions==3.7.4.3
+typing-extensions==3.10.0.0
 update==0.0.1
 urllib3==1.26.5
 websockets==8.1
