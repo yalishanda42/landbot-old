@@ -25,4 +25,4 @@ update==0.0.1
 urllib3==1.26.5
 websockets==8.1
 yarl==1.4.2
-youtube-dl==2020.12.7
+youtube-dl==2021.6.6
