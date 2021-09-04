@@ -86,12 +86,16 @@ Get a YouTube link for a landcore song.
     * `.тест`
     * `.t`
     * `.т`
+    * `.ping`
+    * `.пинг`
+    * `.pong`
+    * `.понг`
     * `..`
 
 
 * Notes
 
-    This command outputs a simple funny message for test purposes.
+    This command outputs a landcore quote for test purposes.
 
 ### Help
 

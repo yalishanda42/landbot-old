@@ -31,7 +31,7 @@ class LandBot(discord.Client):
 
     COMMAND_START_SYMBOL = "."
 
-    _TEST_CMD = ("test", "t", ".")
+    _TEST_CMD = ("test", "t", ".", "ping", "pong")
 
     _HELP_CMD = ("help", "introduce", "h", "?", "pomosht")
 
