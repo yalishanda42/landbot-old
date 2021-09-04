@@ -76,7 +76,7 @@ class LandBot(discord.Client):
     async def on_ready(self):
         """Client is connected."""
         print(f"Bot logged in as {self.user}.")
-        # await self._play_landcore_radio()
+        await self._play_landcore_radio()
 
     async def on_member_join(self, member):
         """Handle a user joining the server."""
@@ -237,58 +237,58 @@ LandBot-a я вижда и веднага отговаря.
 
     # Helper methods
 
-    # async def _play_landcore_radio(self):
-    #     if not self.voice_channel_id: return
-    #     channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
+    async def _play_landcore_radio(self):
+        if not self.voice_channel_id: return
+        channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
 
-    #     print("Downloading song data...")
+        print("Downloading song data...")
 
-    #     songlist = []
-    #     try:
-    #         songlist = [
-    #             YouTube(link)
-    #             for link in LandcoreSongs.URLS
-    #         ]
-    #     except HTTPError:
-    #         print("Caught HTTPException, retrying...")
-    #         await self._play_landcore_radio()
-    #         return # fml
+        songlist = []
+        try:
+            songlist = [
+                YouTube(link)
+                for link in LandcoreSongs.URLS
+            ]
+        except HTTPError:
+            print("Caught HTTPException, retrying...")
+            await self._play_landcore_radio()
+            return # fml
 
-    #     activity = discord.Activity()
-    #     activity.type = discord.ActivityType.listening
-    #     activity.name = "landcore"
-    #     await self.change_presence(activity=activity)
+        activity = discord.Activity()
+        activity.type = discord.ActivityType.listening
+        activity.name = "landcore"
+        await self.change_presence(activity=activity)
 
-    #     print(f"Connecting to channel {channel}...")
-    #     player = await channel.connect()
-    #     self.songlist = songlist
-    #     self.player = player
-    #     if songlist:
-    #         self._play_song_increment_count(0)
-    #     else:
-    #         print("No songs to play!")
+        print(f"Connecting to channel {channel}...")
+        player = await channel.connect()
+        self.songlist = songlist
+        self.player = player
+        if songlist:
+            self._play_song_increment_count(0)
+        else:
+            print("No songs to play!")
 
-    # def _play_song_increment_count(self, i):
-    #     if not self.player or not self.songlist: return
+    def _play_song_increment_count(self, i):
+        if not self.player or not self.songlist: return
 
-    #     if i >= len(self.songlist):
-    #         i = 0
+        if i >= len(self.songlist):
+            i = 0
 
-    #     if i == 0:
-    #         shuffle(self.songlist)
+        if i == 0:
+            shuffle(self.songlist)
 
-    #     songdata = self.songlist[i]
-    #     try:
-    #         audio_url = songdata.streams.filter(only_audio=True).order_by("abr").first().url
-    #         print(f"Playing {songdata.title}...")
+        songdata = self.songlist[i]
+        try:
+            audio_url = songdata.streams.filter(only_audio=True).order_by("abr").first().url
+            print(f"Playing {songdata.title}...")
 
-    #         self.player.play(
-    #             discord.FFmpegPCMAudio(audio_url),
-    #             after=lambda e: self._play_song_increment_count(i+1)
-    #         )
-    #     except HTTPError:
-    #         print(f"HTTPError received, skipping song {songdata.watch_url}")
-    #         self._play_song_increment_count(i+1)
+            self.player.play(
+                discord.FFmpegPCMAudio(audio_url),
+                after=lambda e: self._play_song_increment_count(i+1)
+            )
+        except HTTPError:
+            print(f"HTTPError received, skipping song {songdata.watch_url}")
+            self._play_song_increment_count(i+1)
 
 
 
