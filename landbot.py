@@ -197,7 +197,7 @@ LandBot-a я вижда и веднага отговаря.
         return out_msg
 
     def _test_command(self):
-        return random.choice(LandcoreSongs.CITATIONS)
+        return random.choice(LandcoreSongs.QUOTES)
 
     def _link_command(self, name):
         full_match_index = None

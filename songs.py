@@ -132,7 +132,7 @@ class LandcoreSongs:
         ("retrospekt", "darzhavniya", "retrospektsiya", "retrospekciq"),
     ]
 
-    CITATIONS = [
+    QUOTES = [
         "пешо нешо",
         "бафтата бафтата",
         "денем стиска ти здраво ръката",
