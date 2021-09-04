@@ -5,12 +5,15 @@
 (c) 2020 Yalishanda.
 """
 
+import asyncio
+from typing import Optional
 import discord
 import logging
 import re
 from urllib.error import HTTPError
 import transliterate
 import os
+from datetime import datetime
 import random
 from dotenv import load_dotenv
 from pytube import YouTube
@@ -25,7 +28,8 @@ class LandBot(discord.Client):
 
     # Properties
 
-    voice_channel_id = None
+    voice_channel_id: Optional[int] = None
+    songs_channel_id: Optional[int] = None
 
     # Constants
 
@@ -141,6 +145,18 @@ class LandBot(discord.Client):
 
         await message.channel.send(out_msg)
         return
+
+    # Public methods
+
+    async def random_song_of_the_day(self):
+        """Send a message with a random song of the day."""
+        if not self.songs_channel_id: return
+
+        songurl = random.choice(LandcoreSongs.URLS)
+        message = f"Random song of the day: {songurl}"
+
+        await self.get_channel(self.songs_channel_id).send(message)
+
 
     # Command implementations
 
@@ -307,13 +323,28 @@ def _setup_logger():
     logger.addHandler(handler)
 
 
+async def random_song_of_the_day_timer(bot):
+    await bot.wait_until_ready()
+
+    while True:
+        now = datetime.now()
+        print(f"TIME IS: {now}")
+        if now.hour == 0 and now.minute == 0 and now.second == 0:
+            await bot.random_song_of_the_day()
+
+        await asyncio.sleep(1)
+
+
 if __name__ == "__main__":
     _setup_logger()
 
     load_dotenv()
     token = os.getenv("DISCORD_TOKEN")
     voice_channel_id = os.getenv("VOICE_CHANNEL_ID")
+    songs_channel_id = os.getenv("SONGS_CHANNEL_ID")
 
     client = LandBot()
     client.voice_channel_id = int(voice_channel_id) if voice_channel_id else None
+    client.songs_channel_id = int(songs_channel_id) if songs_channel_id else None
+    client.loop.create_task(random_song_of_the_day_timer(client))
     client.run(token)
