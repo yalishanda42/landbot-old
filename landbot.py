@@ -14,6 +14,7 @@ from urllib.error import HTTPError
 import transliterate
 import os
 from datetime import datetime
+from pytz import timezone
 import random
 from dotenv import load_dotenv
 from pytube import YouTube
@@ -327,9 +328,9 @@ async def random_song_of_the_day_timer(bot):
     await bot.wait_until_ready()
 
     while True:
-        now = datetime.now()
-        print(f"TIME IS: {now}")
+        now = datetime.now(timezone("Europe/Sofia"))
         if now.hour == 0 and now.minute == 0 and now.second == 0:
+            print("Sending song of the day.")
             await bot.random_song_of_the_day()
 
         await asyncio.sleep(1)
