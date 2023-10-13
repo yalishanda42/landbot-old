@@ -9,7 +9,7 @@ discord==1.7.3
 discord.py==1.7.3
 idna==2.9
 multidict==4.7.6
-pycodestyle==2.6.0
+pycodestyle==2.11.1
 pycparser==2.20
 PyNaCl==1.4.0
 pypresence==4.0.0
