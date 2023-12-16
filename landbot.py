@@ -5,7 +5,7 @@
 (c) 2020 Yalishanda.
 """
 
-from discord import Client, Intents
+from discord import Client, Intents, Message, Member
 
 import re
 import transliterate
@@ -79,7 +79,7 @@ class LandBot(Client):
         """Client is connected."""
         print(f"Bot logged in as {self.user}.")
 
-    async def on_member_join(self, member):
+    async def on_member_join(self, member: Member):
         """Handle a user joining the server."""
         print(f"User {member} joined the server!")
 
@@ -95,7 +95,7 @@ class LandBot(Client):
         usr_msg = self._WELCOME_USER_DM
         await member.send(usr_msg)
 
-    async def on_message(self, message):
+    async def on_message(self, message: Message):
         """Listen for patterns and execute commands."""
         if message.author == self.user:
             return
@@ -141,12 +141,11 @@ class LandBot(Client):
             return
 
         await message.channel.send(out_msg)
-        return
 
 
     # Command implementations
 
-    def _help_command(self):
+    def _help_command(self) -> str:
         return """И ето пак команда с '.' се задава.
 LandBot-a я вижда и веднага отговаря.
 
@@ -173,7 +172,7 @@ LandBot-a я вижда и веднага отговаря.
 Приятно ландкориране.
 """
 
-    def _rhyme_command(self, term, max_rhymes=10):
+    def _rhyme_command(self, term: str, max_rhymes: int = 10) -> str:
         if re.search("[а-яА-Я]", term):
             # when cyrillic, use rimichka.com
             api = RimichkaAPI()
@@ -198,28 +197,39 @@ LandBot-a я вижда и веднага отговаря.
         out_msg = "\n".join(rows)
         return out_msg
 
-    def _test_command(self):
+    def _test_command(self) -> str:
         return random.choice(LandcoreSongs.QUOTES)
+    
+    def _random_song_cmd(self):
+        return random.choice(LandcoreSongs.URLS)
 
-    def _link_command(self, name):
-        full_match_index = None
-        partial_match_indices = []
+    def _link_command(self, name: str):
+        # translit + lowercase
 
         if re.match("[а-яА-Я]", name):
             name = transliterate.translit(name, "bg", reversed=True)
 
         name = name.lower()
 
-        for i, names_tuple in enumerate(LandcoreSongs.NAMES):
-            if names_tuple[0] == name:
-                full_match_index = i
-                break
-
-            if name in names_tuple[1:]:
-                partial_match_indices.append(i)
+        # find full match
+    
+        full_match_index = next(
+            (
+                i for i, names_tuple in enumerate(LandcoreSongs.NAMES)
+                if names_tuple[0] == name
+            ),
+            None  # default if not found
+        )
 
         if full_match_index is not None:
             return LandcoreSongs.URLS[full_match_index]
+        
+        # find partial matches
+        
+        partial_match_indices = [
+            i for i, names_tuple in enumerate(LandcoreSongs.NAMES)
+            if name in names_tuple[1:]
+        ]
 
         if not partial_match_indices:
             return "хм? пробвай пак"
@@ -227,19 +237,20 @@ LandBot-a я вижда и веднага отговаря.
         if len(partial_match_indices) == 1:
             return LandcoreSongs.URLS[partial_match_indices[0]]
 
-        result = "Може би имахте предвид:\n"
-        result += "\n".join("[{0}]({1})"
-                            .format(LandcoreSongs.NAMES[i][0],
-                                    LandcoreSongs.URLS[i])
-                            for i in partial_match_indices)
-        return result
+        result = "\n".join(
+            "[{0}]({1})".format(
+                LandcoreSongs.NAMES[i][0],
+                LandcoreSongs.URLS[i]
+            )
+            for i in partial_match_indices
+        )
 
-    def _random_song_cmd(self):
-        return random.choice(LandcoreSongs.URLS)
+        return f"Може би имахте предвид:\n{result}"
 
 
 if __name__ == "__main__":
     load_dotenv()
+
     env_var_name = "DISCORD_TOKEN"
     token = os.getenv(f"{env_var_name}")
 
