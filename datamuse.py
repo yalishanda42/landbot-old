@@ -12,6 +12,7 @@ class DatamuseAPI:
         """Return a list with rhymes for a given word."""
         try:
             response = requests.get(f"{self.BASE}/words?rel_rhy={word}").json()
+            response.raise_for_status()
         except Exception:
             response = []
 

@@ -12,6 +12,7 @@ class RimichkaAPI:
         """Return a list with rhymes for a given word."""
         try:
             response = requests.get(f"{self.BASE}/?word={word}&json=1").json()
+            response.raise_for_status()
             response.sort(key=lambda d: d["pri"], reverse=True)
         except Exception:
             response = []

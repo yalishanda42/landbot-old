@@ -5,32 +5,20 @@
 (c) 2020 Yalishanda.
 """
 
-import asyncio
-from typing import Optional
-import discord
-import logging
+from discord import Client, Intents
+
 import re
-from urllib.error import HTTPError
 import transliterate
 import os
-from datetime import datetime
-from pytz import timezone
 import random
 from dotenv import load_dotenv
-from pytube import YouTube
-from random import shuffle
 
 from rimichka import RimichkaAPI
 from datamuse import DatamuseAPI
 from songs import LandcoreSongs
 
-class LandBot(discord.Client):
+class LandBot(Client):
     """Bot implementation."""
-
-    # Properties
-
-    voice_channel_id: Optional[int] = None
-    songs_channel_id: Optional[int] = None
 
     # Constants
 
@@ -76,12 +64,20 @@ class LandBot(discord.Client):
 Само да знаеш, че мога изпълявам команди, започващи с точка.
 Може да пробваш тука .help за повече информация."""
 
+    # Factory
+
+    @classmethod
+    def create(cls):
+        """Create a new LandBot instance with all the necessary intents."""
+        intents = Intents(members=True, messages=True)
+        return cls(intents=intents)
+
+
     # Overrides
 
     async def on_ready(self):
         """Client is connected."""
         print(f"Bot logged in as {self.user}.")
-        await self._play_landcore_radio()
 
     async def on_member_join(self, member):
         """Handle a user joining the server."""
@@ -146,17 +142,6 @@ class LandBot(discord.Client):
 
         await message.channel.send(out_msg)
         return
-
-    # Public methods
-
-    async def random_song_of_the_day(self):
-        """Send a message with a random song of the day."""
-        if not self.songs_channel_id: return
-
-        songurl = random.choice(LandcoreSongs.URLS)
-        message = f"Random song of the day: {songurl}"
-
-        await self.get_channel(self.songs_channel_id).send(message)
 
 
     # Command implementations
@@ -252,100 +237,16 @@ LandBot-a я вижда и веднага отговаря.
     def _random_song_cmd(self):
         return random.choice(LandcoreSongs.URLS)
 
-    # Helper methods
-
-    async def _play_landcore_radio(self):
-        if not self.voice_channel_id: return
-        channel = [c for c in self.guilds[0].channels if c.id == self.voice_channel_id][0]
-
-        print("Downloading song data...")
-
-        songlist = []
-        try:
-            songlist = [
-                YouTube(link)
-                for link in LandcoreSongs.URLS
-            ]
-        except HTTPError:
-            print("Caught HTTPException, retrying...")
-            await self._play_landcore_radio()
-            return # fml
-
-        activity = discord.Activity()
-        activity.type = discord.ActivityType.listening
-        activity.name = "landcore"
-        await self.change_presence(activity=activity)
-
-        print(f"Connecting to channel {channel}...")
-        player = await channel.connect()
-        self.songlist = songlist
-        self.player = player
-        if songlist:
-            self._play_song_increment_count(0)
-        else:
-            print("No songs to play!")
-
-    def _play_song_increment_count(self, i):
-        if not self.player or not self.songlist: return
-
-        if i >= len(self.songlist):
-            i = 0
-
-        if i == 0:
-            shuffle(self.songlist)
-
-        songdata = self.songlist[i]
-        try:
-            audio_url = songdata.streams.filter(only_audio=True).order_by("abr").first().url
-            print(f"Playing {songdata.title}...")
-
-            self.player.play(
-                discord.FFmpegPCMAudio(audio_url),
-                after=lambda e: self._play_song_increment_count(i+1)
-            )
-        except HTTPError:
-            print(f"HTTPError received, skipping song {songdata.watch_url}")
-            self._play_song_increment_count(i+1)
-
-
-
-def _setup_logger():
-    """Set up the logger."""
-    logger = logging.getLogger("discord")
-    logger.setLevel(logging.DEBUG)
-    handler = logging.FileHandler(
-        filename="discord.log",
-        encoding="utf-8",
-        mode="w"
-    )
-
-    logformat = "%(asctime)s:%(levelname)s:%(name)s: %(message)s"
-    handler.setFormatter(logging.Formatter(logformat))
-    logger.addHandler(handler)
-
-
-async def random_song_of_the_day_timer(bot):
-    await bot.wait_until_ready()
-
-    while True:
-        now = datetime.now(timezone("Europe/Sofia"))
-        if now.hour == 0 and now.minute == 0 and now.second == 0:
-            print("Sending song of the day.")
-            await bot.random_song_of_the_day()
-
-        await asyncio.sleep(1)
-
 
 if __name__ == "__main__":
-    _setup_logger()
-
     load_dotenv()
-    token = os.getenv("DISCORD_TOKEN")
-    voice_channel_id = os.getenv("VOICE_CHANNEL_ID")
-    songs_channel_id = os.getenv("SONGS_CHANNEL_ID")
+    env_var_name = "DISCORD_TOKEN"
+    token = os.getenv(f"{env_var_name}")
 
-    client = LandBot()
-    client.voice_channel_id = int(voice_channel_id) if voice_channel_id else None
-    client.songs_channel_id = int(songs_channel_id) if songs_channel_id else None
-    client.loop.create_task(random_song_of_the_day_timer(client))
+    if not token:
+        from sys import stderr
+        stderr.write(f"${env_var_name} environment variable not set!\n")
+        exit(1)
+
+    client = LandBot.create()
     client.run(token)
